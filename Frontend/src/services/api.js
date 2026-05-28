@@ -1,4 +1,23 @@
+import axios from 'axios';
+
 const API_BASE_URL = 'http://localhost:5000/api';
+const apiClient = axios.create({
+  baseURL: API_BASE_URL,
+});
+
+const getAuthHeaders = () => {
+  if (typeof window === 'undefined') {
+    return {};
+  }
+
+  const token = window.localStorage.getItem('access_token');
+
+  return token
+    ? {
+        Authorization: `Bearer ${token}`,
+      }
+    : {};
+};
 
 // User API calls
 export const userAPI = {
@@ -84,3 +103,77 @@ export const documentAPI = {
     return response.json();
   }
 };
+
+export const authService = {
+  login: (email, password) => apiClient.post('/auth/login', { email, password }),
+  register: (email, password, studentId, fullName) =>
+    apiClient.post('/auth/register', {
+      email,
+      password,
+      student_id: studentId,
+      full_name: fullName,
+    }),
+  verifyToken: (token) => apiClient.post('/auth/verify-token', { token }),
+};
+
+export const electionService = {
+  listElections: () =>
+    apiClient.get('/elections', {
+      headers: getAuthHeaders(),
+    }),
+  createElection: (payload) =>
+    apiClient.post('/elections', payload, {
+      headers: getAuthHeaders(),
+    }),
+};
+
+export const candidateService = {
+  listCandidates: () =>
+    apiClient.get('/candidates', {
+      headers: getAuthHeaders(),
+    }),
+  createCandidate: (payload) =>
+    apiClient.post('/candidates', payload, {
+      headers: getAuthHeaders(),
+    }),
+  deleteCandidate: (candidateId) =>
+    apiClient.delete(`/candidates/${candidateId}`, {
+      headers: getAuthHeaders(),
+    }),
+};
+
+export const superAdminService = {
+  listUniversities: () =>
+    apiClient.get('/admin/universities', {
+      headers: getAuthHeaders(),
+    }),
+  createUniversity: (payload) =>
+    apiClient.post('/admin/universities/create', payload, {
+      headers: getAuthHeaders(),
+    }),
+  deleteUniversity: (universityId) =>
+    apiClient.delete(`/admin/universities/${universityId}`, {
+      headers: getAuthHeaders(),
+    }),
+  listAdmins: () =>
+    apiClient.get('/admin/admins', {
+      headers: getAuthHeaders(),
+    }),
+  createAdmin: (payload) =>
+    apiClient.post('/admin/admins/create', payload, {
+      headers: getAuthHeaders(),
+    }),
+  deleteAdmin: (adminId) =>
+    apiClient.delete(`/admin/admins/${adminId}`, {
+      headers: getAuthHeaders(),
+    }),
+};
+
+export const userService = {
+  updateUser: (userId, payload) =>
+    apiClient.put(`/users/${userId}`, payload, {
+      headers: getAuthHeaders(),
+    }),
+};
+
+export { apiClient };

@@ -44,9 +44,15 @@ export default function Navigation() {
       }`}
     >
       <div className="nav-container">
-        <div className="nav-logo" onClick={() => navigate('/')}>
-          <img src="/thuto.png" alt="THUTOSHARE" className="nav-logo-image" />
-        </div>
+        <button type="button" className="nav-brand" onClick={() => navigate('/')}>
+          <span className="nav-brand-mark">
+            <img src="/thuto.png" alt="THABANG Library logo" className="nav-logo-image" />
+          </span>
+          <span className="nav-brand-copy">
+            <strong>THABANG Library</strong>
+            <span>Digital Library Workspace</span>
+          </span>
+        </button>
 
         {isLanding && (
           <div className="nav-links">
