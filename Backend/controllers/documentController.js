@@ -1,5 +1,38 @@
 // Document Controller
-const documents = [];
+const fs = require('fs');
+const path = require('path');
+
+// Data file for persistence
+const DATA_FILE = path.join(__dirname, '../data/documents.json');
+
+// Ensure data directory exists
+const dataDir = path.dirname(DATA_FILE);
+if (!fs.existsSync(dataDir)) {
+  fs.mkdirSync(dataDir, { recursive: true });
+}
+
+// Load documents from file
+function loadDocuments() {
+  try {
+    if (fs.existsSync(DATA_FILE)) {
+      return JSON.parse(fs.readFileSync(DATA_FILE, 'utf8'));
+    }
+  } catch (err) {
+    console.error('Error loading documents:', err);
+  }
+  return [];
+}
+
+// Save documents to file
+function saveDocuments(documents) {
+  try {
+    fs.writeFileSync(DATA_FILE, JSON.stringify(documents, null, 2), 'utf8');
+  } catch (err) {
+    console.error('Error saving documents:', err);
+  }
+}
+
+let documents = loadDocuments();
 
 exports.createDocument = (req, res) => {
   const { title, content, ownerId } = req.body;
@@ -19,6 +52,8 @@ exports.createDocument = (req, res) => {
   };
   
   documents.push(document);
+  saveDocuments(documents);
+  
   res.status(201).json({ message: 'Document created', document });
 };
 
