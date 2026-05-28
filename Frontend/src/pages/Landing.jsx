@@ -3,44 +3,101 @@ import {
   IconArrow,
   IconDocument,
   IconLock,
+  IconSearch,
   IconShare,
   IconUsers,
 } from '../components/Icons';
 import Carousel from '../components/Carousel';
 import '../styles/Landing.css';
 
-const features = [
+const heroFields = [
+  {
+    label: 'Collection',
+    value: 'Reading packs & archives',
+    icon: IconDocument,
+  },
+  {
+    label: 'Workspace',
+    value: 'Rooms and shared study',
+    icon: IconUsers,
+  },
+  {
+    label: 'Access',
+    value: 'Protected resources',
+    icon: IconLock,
+  },
+  {
+    label: 'Flow',
+    value: 'Share and collaborate',
+    icon: IconShare,
+  },
+];
+
+const heroBenefits = [
   {
     icon: IconDocument,
-    number: '01',
-    title: 'Collections stay organized',
-    description:
-      'Present documents, reading packs, internal resources, and library material in one structured view.',
-    note: 'Designed for browsing, retrieval, and repeated use.',
+    title: 'Curated collections',
+    detail: 'Reading packs, archives, and digital material in one place.',
   },
   {
     icon: IconShare,
-    number: '02',
-    title: 'Sharing feels direct',
-    description:
-      'Move files between staff, students, and project groups with a cleaner workflow and less friction.',
-    note: 'Clear access without exposing unnecessary complexity.',
+    title: 'Shared workflow',
+    detail: 'Documents move between readers, teams, and staff without friction.',
   },
   {
     icon: IconUsers,
-    number: '03',
-    title: 'Collaboration is built in',
-    description:
-      'Support quiet study, shared editing, and group work from the same interface without visual clutter.',
-    note: 'Made for both individual focus and shared progress.',
+    title: 'Live rooms',
+    detail: 'Keep group reading, replies, and discussion close to the work.',
   },
   {
     icon: IconLock,
-    number: '04',
-    title: 'Access remains controlled',
+    title: 'Trusted access',
+    detail: 'Private and restricted resources stay controlled and easy to manage.',
+  },
+];
+
+const showcaseCards = [
+  {
+    image: '/Library-main-1024x576.png',
+    title: 'Reading Rooms',
+    meta: 'Quiet study and guided discussion',
     description:
-      'Keep private resources, restricted files, and permissions under control while the experience stays simple.',
-    note: 'Security stays present without dominating the design.',
+      'Create calmer spaces for annotated reading, room notes, and shared seminar preparation.',
+  },
+  {
+    image: '/Document.jpeg',
+    title: 'Digital Collections',
+    meta: 'Documents and protected material',
+    description:
+      'Bring library packs, internal references, and trusted academic resources into one cleaner shelf.',
+  },
+  {
+    image: '/connectivity_displays__er91a9b94oeq_large.jpg',
+    title: 'Collaboration Spaces',
+    meta: 'Shared work and team coordination',
+    description:
+      'Let readers, staff, and project groups reply, edit, and move together without clutter.',
+  },
+];
+
+const platformRows = [
+  {
+    icon: IconDocument,
+    title: 'Collections stay easy to browse',
+    description:
+      'Readers should be able to move from featured material to deeper archives without feeling lost in the interface.',
+  },
+  {
+    icon: IconUsers,
+    title: 'Rooms keep discussion visible',
+    description:
+      'Shared reading, group replies, and guided collaboration stay near the actual documents and notes.',
+  },
+  {
+    icon: IconLock,
+    title: 'Access stays calm and controlled',
+    description:
+      'Permissions, protected shelves, and trusted internal content stay secure without turning the product into an admin wall.',
   },
 ];
 
@@ -49,25 +106,25 @@ const values = [
     icon: IconDocument,
     title: 'Clarity',
     description:
-      'Collections, reading paths, and shared resources should feel understandable from the first screen.',
+      'A library homepage should feel understandable from the first glance and stay calm as the system grows.',
   },
   {
     icon: IconShare,
     title: 'Access',
     description:
-      'Knowledge should move easily between staff, students, and learning spaces without unnecessary friction.',
+      'Knowledge should move easily between shelves, readers, and teams without unnecessary friction.',
   },
   {
     icon: IconUsers,
     title: 'Collaboration',
     description:
-      'The platform should support quiet study, team reading, and active group work with equal care.',
+      'Study, shared editing, room discussion, and collective work should feel naturally connected.',
   },
   {
     icon: IconLock,
     title: 'Trust',
     description:
-      'Protected content, permissions, and institutional material should remain controlled and dependable.',
+      'Protected resources and institutional content should stay dependable, controlled, and easy to manage.',
   },
 ];
 
@@ -88,120 +145,187 @@ export default function Landing() {
   return (
     <div className="landing">
       <section className="landing-hero">
-        <div className="landing-hero-media">
-          <Carousel showContent={false} />
+        <div className="landing-shell">
+          <div className="landing-hero-frame">
+            <div className="landing-hero-media">
+              <Carousel showContent={false} />
+              <div className="landing-hero-shade" />
+            </div>
+
+            <div className="landing-hero-content">
+              <div className="landing-hero-copy">
+                <span className="landing-kicker">THABANG Library</span>
+                <h1>
+                  Discover.
+                  <br />
+                  Study.
+                  <br />
+                  <span>Share knowledge.</span>
+                </h1>
+                <p>
+                  Explore collections, reading rooms, trusted academic
+                  resources, and collaborative spaces through one more refined
+                  digital library experience.
+                </p>
+              </div>
+
+              <div className="landing-hero-actions">
+                <button
+                  className="landing-cta-primary"
+                  onClick={() => (isLoggedIn ? navigate('/dashboard') : openAuth('signup'))}
+                >
+                  {isLoggedIn ? 'Open Workspace' : 'Get Started'}
+                  <IconArrow />
+                </button>
+
+                <button
+                  className="landing-cta-secondary"
+                  onClick={() => openAuth('login')}
+                >
+                  Sign In
+                </button>
+              </div>
+
+              <div className="landing-action-band">
+                {heroFields.map((field) => {
+                  const Icon = field.icon;
+
+                  return (
+                    <div className="landing-action-field" key={field.label}>
+                      <div className="landing-action-icon">
+                        <Icon />
+                      </div>
+                      <div className="landing-action-copy">
+                        <span>{field.label}</span>
+                        <strong>{field.value}</strong>
+                      </div>
+                    </div>
+                  );
+                })}
+
+                <button
+                  className="landing-action-search"
+                  onClick={() => (isLoggedIn ? navigate('/dashboard') : openAuth('signup'))}
+                >
+                  <span>Explore</span>
+                  <IconSearch />
+                </button>
+              </div>
+
+              <div className="landing-hero-benefits">
+                {heroBenefits.map((item) => {
+                  const Icon = item.icon;
+
+                  return (
+                    <article className="landing-hero-benefit" key={item.title}>
+                      <div className="landing-hero-benefit-icon">
+                        <Icon />
+                      </div>
+                      <div className="landing-hero-benefit-copy">
+                        <strong>{item.title}</strong>
+                        <span>{item.detail}</span>
+                      </div>
+                    </article>
+                  );
+                })}
+              </div>
+            </div>
+          </div>
         </div>
       </section>
 
-      <section id="overview" className="landing-overview">
-        <div className="landing-overview-shell">
-          <div className="landing-overview-intro">
-            <div className="landing-overview-heading">
-              <h2>A modern home for library collections, reading, and shared work.</h2>
+      <section id="overview" className="landing-showcase">
+        <div className="landing-shell">
+          <div className="landing-showcase-board">
+            <div className="landing-showcase-grid">
+              <div className="landing-showcase-intro">
+                <span className="landing-section-label">Explore The Library</span>
+                <div>
+                  <h2>Popular spaces for reading, collections, and shared study.</h2>
+                  <p>
+                    Give visitors a stronger first impression with real spaces they
+                    can imagine using right away.
+                  </p>
+                </div>
+                <button
+                  className="landing-outline-button"
+                  onClick={() => (isLoggedIn ? navigate('/dashboard') : openAuth('signup'))}
+                >
+                  View the platform
+                  <IconArrow />
+                </button>
+              </div>
+
+              {showcaseCards.map((card) => (
+                <article className="landing-showcase-card" key={card.title}>
+                  <img src={card.image} alt={card.title} />
+                  <div className="landing-showcase-card-copy">
+                    <span>{card.meta}</span>
+                    <h3>{card.title}</h3>
+                    <p>{card.description}</p>
+                  </div>
+                </article>
+              ))}
             </div>
-          </div>
 
-          <div className="landing-feature-rows">
-            {features.map((feature) => {
-              const Icon = feature.icon;
+            <div className="landing-platform-strip">
+              {platformRows.map((row) => {
+                const Icon = row.icon;
 
-              return (
-                <article className="landing-feature-row" key={feature.title}>
-                  <div className="landing-feature-row-number">{feature.number}</div>
-
-                  <div className="landing-feature-row-main">
-                    <div className="landing-feature-icon">
+                return (
+                  <article className="landing-platform-row" key={row.title}>
+                    <div className="landing-platform-row-icon">
                       <Icon />
                     </div>
-
-                    <div className="landing-feature-row-copy">
-                      <h3>{feature.title}</h3>
-                      <p>{feature.description}</p>
+                    <div className="landing-platform-row-copy">
+                      <h3>{row.title}</h3>
+                      <p>{row.description}</p>
                     </div>
-                  </div>
-
-                  <p className="landing-feature-row-note">{feature.note}</p>
-                </article>
-              );
-            })}
-          </div>
-
-          <div id="join" className="landing-overview-cta">
-            <div className="landing-overview-cta-copy">
-              <h3>Start in one clear, focused workspace.</h3>
-              <p>
-                Give readers, staff, and teams a direct path into the platform
-                without unnecessary friction.
-              </p>
-            </div>
-
-            <div className="landing-overview-actions">
-              <button
-                className="landing-cta-primary"
-                onClick={() => (isLoggedIn ? navigate('/dashboard') : openAuth('signup'))}
-              >
-                {isLoggedIn ? 'Open Dashboard' : 'Get Started'}
-                <IconArrow />
-              </button>
-              <button
-                className="landing-cta-secondary"
-                onClick={() => openAuth('login')}
-              >
-                Sign In
-              </button>
+                  </article>
+                );
+              })}
             </div>
           </div>
         </div>
       </section>
 
-      <footer className="landing-footer">
-        <div className="landing-footer-shell">
-          <div className="landing-footer-surface">
+      <footer id="join" className="landing-footer">
+        <div className="landing-shell">
+          <div className="landing-footer-panel">
             <div className="landing-footer-top">
               <div className="landing-footer-brand">
-                <img
-                  src="/thuto.png"
-                  alt="THUTOSHARE"
-                  className="landing-footer-logo"
-                />
+                <div className="landing-footer-logo-wrap">
+                  <img src="/thuto.png" alt="THABANG Library" className="landing-footer-logo" />
+                </div>
                 <div className="landing-footer-brand-copy">
-                  <h3>THUTOSHARE</h3>
-                  <p>
-                    A focused digital environment for collections, reading,
-                    and shared academic work.
-                  </p>
+                  <span className="landing-section-label">THABANG Library</span>
+                  <h3>A focused digital home for collections, reading, and trusted collaboration.</h3>
                 </div>
               </div>
 
-              <button
-                className="landing-footer-button"
-                onClick={() => (isLoggedIn ? navigate('/dashboard') : openAuth('signup'))}
-              >
-                {isLoggedIn ? 'Open Dashboard' : 'Get Started'}
-                <IconArrow />
-              </button>
+              <div className="landing-footer-actions">
+                <button
+                  className="landing-cta-primary"
+                  onClick={() => (isLoggedIn ? navigate('/dashboard') : openAuth('signup'))}
+                >
+                  {isLoggedIn ? 'Open Workspace' : 'Get Started'}
+                  <IconArrow />
+                </button>
+              </div>
             </div>
 
             <div className="landing-footer-main">
               <section className="landing-footer-mission">
-                <span className="landing-footer-label">Mission</span>
-                <h4>Build a calmer digital home for collections and shared knowledge.</h4>
+                <span className="landing-section-label">Mission</span>
                 <p>
-                  THUTOSHARE helps libraries, reading rooms, and learning teams
-                  organize resources, support reading, and manage access through
-                  an interface that stays clear, credible, and easy to trust.
+                  Build a modern library experience where collections,
+                  discussion rooms, shared documents, and protected resources
+                  feel organized from the first screen.
                 </p>
               </section>
 
               <section className="landing-footer-values">
-                <div className="landing-footer-section-head">
-                  <span className="landing-footer-label">Values</span>
-                  <p>
-                    The platform is shaped around a few principles that keep the
-                    experience serious, useful, and dependable.
-                  </p>
-                </div>
-
+                <span className="landing-section-label">Values</span>
                 <div className="landing-footer-values-grid">
                   {values.map((value) => {
                     const Icon = value.icon;
@@ -211,9 +335,8 @@ export default function Landing() {
                         <div className="landing-footer-value-icon">
                           <Icon />
                         </div>
-
                         <div className="landing-footer-value-copy">
-                          <h5>{value.title}</h5>
+                          <h4>{value.title}</h4>
                           <p>{value.description}</p>
                         </div>
                       </article>
@@ -221,27 +344,11 @@ export default function Landing() {
                   })}
                 </div>
               </section>
-
-              <section className="landing-footer-links">
-                <span className="landing-footer-label">Explore</span>
-                <a href="#overview">Overview</a>
-                <a href="#join">Get Started</a>
-                <button
-                  className="landing-footer-link-button"
-                  onClick={() => (isLoggedIn ? navigate('/dashboard') : openAuth('login'))}
-                >
-                  {isLoggedIn ? 'Dashboard' : 'Sign In'}
-                </button>
-                <p className="landing-footer-links-note">
-                  Made for libraries, study rooms, internal knowledge hubs,
-                  and protected resource sharing.
-                </p>
-              </section>
             </div>
 
             <div className="landing-footer-bottom">
-              <span>© 2026 THUTOSHARE</span>
-              <span>Mission-led digital access for modern libraries.</span>
+              <span>© 2026 THABANG Library</span>
+              <span>Digital collections, trusted access, and connected learning spaces.</span>
             </div>
           </div>
         </div>

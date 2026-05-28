@@ -1,16 +1,68 @@
-# React + Vite
+# Thuto BAC - Frontend
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+React TypeScript frontend for the Thuto BAC Digital Voting Platform.
 
-Currently, two official plugins are available:
+## Getting Started
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+### Prerequisites
+- Node.js 16+
+- npm or yarn
 
-## React Compiler
+### Installation
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+1. Navigate to frontend directory:
+```bash
+cd frontend
+```
 
-## Expanding the ESLint configuration
+2. Install dependencies:
+```bash
+npm install
+```
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+3. Start development server:
+```bash
+npm run dev
+```
+
+The frontend will be available at `http://localhost:3000`
+
+### Available Scripts
+
+- `npm run dev` - Start development server
+- `npm run build` - Build for production
+- `npm run preview` - Preview production build
+- `npm run lint` - Run ESLint
+
+## Features
+
+- User authentication (login/register)
+- View available elections
+- Cast votes
+- Real-time results
+- Responsive design
+
+## Project Structure
+
+```
+frontend/
+├── src/
+│   ├── components/       # Reusable components
+│   ├── contexts/        # React context for state management
+│   ├── pages/          # Page components
+│   ├── services/       # API services
+│   ├── styles/         # CSS styles
+│   ├── types/          # TypeScript type definitions
+│   ├── App.tsx         # Main app component
+│   └── main.tsx        # Entry point
+├── public/             # Static files
+├── index.html          # HTML template
+├── vite.config.ts      # Vite configuration
+└── package.json        # Dependencies
+```
+
+## API Integration
+
+The frontend communicates with the backend API at `http://localhost:8000/api`.
+
+Ensure the backend is running before starting the frontend development server.
